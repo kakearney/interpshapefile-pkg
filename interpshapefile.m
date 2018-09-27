@@ -31,7 +31,10 @@ function value = interpshapefile(S, lat, lon, attribute)
 %
 %   lon:            longitude coordinates of points to interpolate
 %
-%   attribute:      name of attribute field to be interpolated
+%   attribute:      name of attribute field to be interpolated. (a scalar
+%                   boolean can be substituted to return the index of the
+%                   polygon in which each point lies, rather than an
+%                   interpolated attribute).
 %
 % Output variables:
 %
@@ -65,7 +68,15 @@ function value = interpshapefile(S, lat, lon, attribute)
 % Check input
 %------------------------------
 
-if ~isstruct(S) || ~all(isfield(S, {'Lat', 'Lon', attribute}))
+indexonly = islogical(attribute) && isscalar(attribute);
+
+if indexonly
+    fld = {'Lat', 'Lon'};
+else
+    fld = {'Lat', 'Lon', attribute};
+end
+
+if ~isstruct(S) || ~all(isfield(S, fld))
     error('S must be a geographic data structure with at minimum Lat, Lon, and the specified attribute fields');
 end
 
@@ -92,8 +103,10 @@ end
 %------------------------------
 
 nclockwise = cellfun(@(x,y) length(find(ispolycw(x,y))), {S.Lon}, {S.Lat});
-repVals = cellfun(@(nrep, val) repmat({val},1,nrep), num2cell(nclockwise), {S.(attribute)}, 'UniformOutput', false);
-repVals = [repVals{:}];
+if ~indexonly
+    repVals = cellfun(@(nrep, val) repmat({val},1,nrep), num2cell(nclockwise), {S.(attribute)}, 'UniformOutput', false);
+    repVals = [repVals{:}];
+end
 
 [in, indexCell] = inpolygons(lon, lat, [S.Lon], [S.Lat]);
 
@@ -107,12 +120,16 @@ catch
     end
 end
 
-isGood = (index ~= 0);
-if isnumeric(S(1).(attribute)) && isscalar(S(1).(attribute))
-    value = NaN(size(lon));
-    value(isGood) = cell2mat(repVals(index(isGood)));
+if indexonly
+    value = index;
 else
-    value = cell(size(lon));
-    value(isGood) = repVals(index(isGood));
+    isGood = (index ~= 0);
+    if isnumeric(S(1).(attribute)) && isscalar(S(1).(attribute))
+        value = NaN(size(lon));
+        value(isGood) = cell2mat(repVals(index(isGood)));
+    else
+        value = cell(size(lon));
+        value(isGood) = repVals(index(isGood));
+    end
 end
 
