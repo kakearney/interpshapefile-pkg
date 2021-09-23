@@ -1,0 +1,182 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>interpshapefile.m documentation</title><meta name="generator" content="MATLAB 9.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-09-23"><meta name="DC.source" content="./readmeExtras/README.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1><tt>interpshapefile.m</tt> documentation</h1><!--introduction--><p>Author: Kelly Kearney</p><p>This repository includes the code for the <tt>example.m</tt> Matlab function, along with all dependent functions required to run it.</p><p>Paragraph description for this function or suite of functions.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Getting started</a></li><li><a href="#2">Syntax</a></li><li><a href="#3">Description</a></li><li><a href="#4">Examples</a></li><li><a href="#7">Contributions</a></li></ul></div><h2 id="1">Getting started</h2><p><b>Prerequisites</b></p><p>This function requires Matlab R14 or later.</p><p><b>Downloading and installation</b></p><p>This code can be downloaded from <a href="https://github.com/kakearney/interpshapefile-pkg/">Github</a> or the <a href="http://www.mathworks.com/matlabcentral/fileexchange/10278-interpshapefile">MatlabCentral File Exchange</a>.  The File Exchange entry is updated daily from the GitHub repository.</p><p><b>Matlab Search Path</b></p><p>The following folders need to be added to your Matlab Search path (via <tt>addpath</tt>, <tt>pathtool</tt>, etc.):</p><pre class="language-matlab">interpshapefile-pkg/interpshapefile
+</pre><h2 id="2">Syntax</h2><pre>value = interpshapefile(S, lat, lon, attribute)</pre><h2 id="3">Description</h2><p><tt>value = interpshapefile(S, lat, lon, attribute)</tt> determines the <tt>value</tt> corresponding to location(s) with latitude <tt>lat</tt> and longitude <tt>lon</tt> based on the <tt>attribute</tt> field associated with polygons in the geographic data structure <tt>S</tt> (as returned by a call to <tt>shaperead</tt>).  At minimum, <tt>S</tt> must include fields of 'Lat', 'Lon', and the specified attribute, and contain one or more elements with 'Polygon' Geometry.  The returned <tt>value</tt> will either be a numeric or cell array, depending on the class of the attribute field; points outside of the polygons will receive a NaN or empty array as applicable.</p><h2 id="4">Examples</h2><p>We'll use the usastatlo.shp shapefile for our example; this file is included with the Mapping Toolbox:</p><pre class="codeinput">States = shaperead(<span class="string">'usastatelo'</span>, <span class="string">'UseGeoCoords'</span>, true);
+
+usamap(<span class="string">'conus'</span>);
+geoshow(<span class="string">'usastatelo.shp'</span>, <span class="string">'facecolor'</span>, ones(1,3)*0.8, <span class="keyword">...</span>
+        <span class="string">'edgecolor'</span>, ones(1,3)*0.7);
+</pre><img vspace="5" hspace="5" src="./readmeExtras/README_01.png" alt=""> <p>Scatter some random points.</p><pre class="codeinput">latlim = getm(gca, <span class="string">'maplatlimit'</span>);
+lonlim = getm(gca, <span class="string">'maplonlimit'</span>);
+
+rng(1); <span class="comment">% for reproducability only</span>
+lon = rand(40,1) * diff(lonlim) + lonlim(1);
+lat = rand(40,1) * diff(latlim) + latlim(1);
+
+plotm(lat, lon, <span class="string">'b.'</span>);
+</pre><img vspace="5" hspace="5" src="./readmeExtras/README_02.png" alt=""> <p>Determine which state each point is in.</p><pre class="codeinput">sname = interpshapefile(States, lat, lon, <span class="string">'Name'</span>);
+textm(lat, lon, sname, <span class="string">'fontsize'</span>, 8);
+</pre><img vspace="5" hspace="5" src="./readmeExtras/README_03.png" alt=""> <h2 id="7">Contributions</h2><p>Community contributions to this package are welcome!</p><p>To report bugs, please submit <a href="https://github.com/kakearney/interpshapefile-pkg/issues">an issue</a> on GitHub and include:</p><div><ul><li>your operating system</li><li>your version of Matlab and all relevant toolboxes (type <tt>ver</tt> at the Matlab command line to get this info)</li><li>code/data to reproduce the error or buggy behavior, and the full text of any error messages received</li></ul></div><p>Please also feel free to submit enhancement requests, or to send pull requests (via GitHub) for bug fixes or new features.</p><p>I do monitor the MatlabCentral FileExchange entry for any issues raised in the comments, but would prefer to track issues on GitHub.</p><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% |interpshapefile.m| documentation
+% Author: Kelly Kearney
+%
+% This repository includes the code for the |example.m| Matlab function,
+% along with all dependent functions required to run it. 
+%
+% Paragraph description for this function or suite of functions.
+%
+%% Getting started
+%
+% *Prerequisites*
+%
+% This function requires Matlab R14 or later.
+%
+% *Downloading and installation*
+%
+% This code can be downloaded from <https://github.com/kakearney/interpshapefile-pkg/ Github>
+% or the
+% <http://www.mathworks.com/matlabcentral/fileexchange/10278-interpshapefile
+% MatlabCentral File Exchange>.  The File Exchange entry is updated daily
+% from the GitHub repository.   
+%
+% *Matlab Search Path*
+%
+% The following folders need to be added to your Matlab Search path (via
+% |addpath|, |pathtool|, etc.):
+%
+%   interpshapefile-pkg/interpshapefile
+
+%% Syntax
+%
+%  value = interpshapefile(S, lat, lon, attribute)
+%
+%% Description
+%
+% |value = interpshapefile(S, lat, lon, attribute)| determines the |value|
+% corresponding to location(s) with latitude |lat| and longitude |lon|
+% based on the |attribute| field associated with polygons in the geographic
+% data structure |S| (as returned by a call to |shaperead|).  At minimum,
+% |S| must include fields of 'Lat', 'Lon', and the specified attribute, and
+% contain one or more elements with 'Polygon' Geometry.  The returned
+% |value| will either be a numeric or cell array, depending on the class of
+% the attribute field; points outside of the polygons will receive a NaN or
+% empty array as applicable.
+
+%% Examples
+%
+% We'll use the usastatlo.shp shapefile for our example; this file is
+% included with the Mapping Toolbox:
+
+States = shaperead('usastatelo', 'UseGeoCoords', true);
+
+usamap('conus');
+geoshow('usastatelo.shp', 'facecolor', ones(1,3)*0.8, ...
+        'edgecolor', ones(1,3)*0.7);
+
+%%
+% Scatter some random points.
+
+latlim = getm(gca, 'maplatlimit');
+lonlim = getm(gca, 'maplonlimit');
+
+rng(1); % for reproducability only
+lon = rand(40,1) * diff(lonlim) + lonlim(1);
+lat = rand(40,1) * diff(latlim) + latlim(1);
+
+plotm(lat, lon, 'b.');
+
+%%
+% Determine which state each point is in.
+
+sname = interpshapefile(States, lat, lon, 'Name');
+textm(lat, lon, sname, 'fontsize', 8);
+    
+%% Contributions
+%
+% Community contributions to this package are welcome!
+% 
+% To report bugs, please submit
+% <https://github.com/kakearney/interpshapefile-pkg/issues an issue> on GitHub and
+% include:  
+% 
+% * your operating system
+% * your version of Matlab and all relevant toolboxes (type |ver| at the Matlab command line to get this info)  
+% * code/data to reproduce the error or buggy behavior, and the full text of any error messages received 
+% 
+% Please also feel free to submit enhancement requests, or to send pull
+% requests (via GitHub) for bug fixes or new features. 
+% 
+% I do monitor the MatlabCentral FileExchange entry for any issues raised
+% in the comments, but would prefer to track issues on GitHub. 
+% 
+
+
+##### SOURCE END #####
+--></body></html>
